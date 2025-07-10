@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #BA7373;
+            padding: 20px;
+            overflow-y: auto;
+            cursor: pointer; /* kasih petunjuk bisa diklik */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .typing-text {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #whatsapp-button {
+            background-color: #25D366;
+            color: white;
+            display: none;
+        }
+
+            #whatsapp-button:hover {
+                background-color: #20b958;
+            }
+
+        #next-button {
+            background-color: #007bff;
+            color: white;
+            display: none;
+        }
+
+            #next-button:hover {
+                background-color: #0056b3;
+            }
+
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body onclick="playAudioOnce()">
+
+    <img src="YourImg.jpg" alt="Foto" />
+    <div class="typing-text" id="typing"></div>
+
+    <!-- Lagu -->
+    <audio id="background-music" loop>
+        <source src="ED1.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Tombol WA -->
+    <button id="whatsapp-button"
+            onclick="window.location.href='https://wa.me/6288210982908?text=Terimakasih%20min'">
+        Reply
+    </button>
+
+    <!-- Tombol Next -->
+    <button id="next-button" onclick="stopMusicAndGo()">Next</button>
+
+    <script>
+        const texts = [
+          "Hari ini kamu makin tua... eh, maksudnya makin dewasa dan mempesona 😏",
+          "Selamat ulang tahun Elvira Maharani",
+          "Doaku?",
+          "Semoga satu per satu semua impianmu—yang kamu simpan rapi dalam hati—diberi jalan oleh semesta.",
+          "Jangan takut gagal ya, karena bahkan bintang pun harus menunggu malam buat bersinar ✨",
+          "Dan elvira?, udah terang dari awal ",
+          "Sekali lagi, happy birthday ya, Elvira Maharani",
+          "Happy birthday 🎉"
+        ];
+
+        let index = 0;
+        const typingElement = document.getElementById('typing');
+        const whatsappButton = document.getElementById('whatsapp-button');
+        const nextButton = document.getElementById('next-button');
+
+        function typeText() {
+            if (index < texts.length) {
+                const p = document.createElement('p');
+                p.textContent = '';
+                typingElement.appendChild(p);
+                let i = 0;
+
+                function type() {
+                    if (i < texts[index].length) {
+                        p.textContent += texts[index].charAt(i);
+                        i++;
+                        setTimeout(type, 200);
+                    } else {
+                        index++;
+                        if (index < texts.length) {
+                            setTimeout(typeText, 1000);
+                        } else {
+                            whatsappButton.style.display = 'block';
+                            nextButton.style.display = 'block';
+                        }
+                    }
+                }
+
+                type();
+            }
+        }
+
+        // Ketik teks saat halaman dibuka
+        typeText();
+
+        // Putar musik sekali saat klik pertama
+        let hasPlayed = false;
+        function playAudioOnce() {
+            if (!hasPlayed) {
+                const audio = document.getElementById('background-music');
+                audio.play().catch(err => {
+                    console.log("Autoplay gagal:", err);
+            });
+            hasPlayed = true;
+        }
+        }
+
+        // Stop musik lalu pindah ke Flowers.html
+        function stopMusicAndGo() {
+            const audio = document.getElementById('background-music');
+            audio.pause();
+            audio.currentTime = 0;
+            window.location.href = "Flowers.html";
+        }
+    </script>
+</body>
+</html>

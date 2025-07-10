@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fullscreen Video with Audio</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #111;
+            overflow: hidden;
+            cursor: pointer; /* memberi petunjuk bisa diklik */
+        }
+
+        video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1000px; /* ubah sesuai keinginan */
+            height: 800px; /* ubah sesuai keinginan */
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- VIDEO PENGGANTI GAMBAR -->
+    <video autoplay muted loop playsinline>
+        <source src="EM1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- AUDIO BACKGROUND -->
+    <audio id="background-music" loop>
+        <source src="EDM.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Musik dimulai saat klik pertama
+        let hasPlayed = false;
+        document.body.addEventListener('click', () => {
+            if (!hasPlayed) {
+                const audio = document.getElementById('background-music');
+        audio.play().catch(err => {
+            console.log('Autoplay gagal:', err);
+        });
+        hasPlayed = true;
+        }
+        }, { once: true });
+
+        // Coba preload audio saat halaman dimuat
+        window.addEventListener('load', () => {
+            const audio = document.getElementById('background-music');
+        audio.play().catch(() => {
+            // Ini normal jika autoplay ditolak
+        });
+        });
+    </script>
+
+</body>
+</html>
